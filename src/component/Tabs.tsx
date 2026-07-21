@@ -4,11 +4,11 @@ import { Tab } from '../types/Tab';
 
 type Props = {
   tabs: Tab[];
-  selectedTabId?: string;
+  activeTabId?: string;
 };
 
-export const Tabs = ({ tabs, selectedTabId }: Props) => {
-  const selectedTab = tabs.find(tab => tab.id === selectedTabId);
+export const Tabs = ({ tabs, activeTabId }: Props) => {
+  const activeTab = tabs.find(tab => tab.id === activeTabId);
 
   return (
     <>
@@ -16,20 +16,22 @@ export const Tabs = ({ tabs, selectedTabId }: Props) => {
         <ul>
           {tabs.map(tab => (
             <li
+              key={tab.id}
               data-cy="Tab"
               className={classNames({
-                'is-active': tab.id === selectedTab?.id,
+                'is-active': tab.id === activeTab?.id,
               })}
-              key={tab.id}
             >
-              <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
+              <Link to={`/tabs/${tab.id}`} data-cy="TabLink">
+                {tab.title}
+              </Link>
             </li>
           ))}
         </ul>
       </div>
 
       <div className="block" data-cy="TabContent">
-        {selectedTab ? selectedTab.content : 'Please select a tab'}
+        {activeTab ? activeTab.content : 'Please select a tab'}
       </div>
     </>
   );
